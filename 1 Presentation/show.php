@@ -88,12 +88,9 @@ function endDocument() {
     echo('</html>');
 }
 
-
 function linkExternalCss() {
-    echo('<link rel="stylesheet" href="css.css">');
+    echo('<link rel="stylesheet" href="./CSS/css.css">');
 }
-
-
 
 //LOGIN
 function ShowLoginContent($data){

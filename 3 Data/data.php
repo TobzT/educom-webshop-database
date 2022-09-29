@@ -1,5 +1,6 @@
 <?php 
 require_once("./3 Data/textfile.php");
+require_once("./3 Data/mysqldb.php");
 //LOGIN
 function findByEmail($filename, $email) {
     return findEmailInFile($filename, $email);
@@ -13,9 +14,6 @@ function saveInDb($filename, $message){
 function findByEmailB($filename, $string) {
     return findEmailInFileB($filename, $string);
 }
-
-
-
 
 //HOME
 

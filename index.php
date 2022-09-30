@@ -51,7 +51,9 @@ function processRequest($page){
         case 'register':
             $data = getData('register');
             if($data['valid']) {
-                registerUser($data, "./users/users.txt");
+                $conn = openDb();
+                registerUser($conn, $data);
+                closeDb($conn);
                 $page = 'login';
             }
             break;

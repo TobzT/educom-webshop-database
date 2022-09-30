@@ -158,14 +158,15 @@ function showContactContent() {
 }
 
 function showContactThanks($data) {
-    $GENDERS = getGenders();
+    $genders = getGenders();
+    $options = getOptions();
     echo(
         '<p class="body">
-            Dankjewel ' . $GENDERS[$data['values']['gender']] . " " . ucfirst($data['values']['name']) . '! <br> <br>
+            Dankjewel ' . $genders[$data['values']['gender']] . " " . ucfirst($data['values']['name']) . '! <br> <br>
 
             Jouw e-mail adres is ' . $data['values']["email"] . '. <br>
             Jouw telefoonnummer is ' . $data['values']["tlf"] . '. <br>
-            Jouw voorkeur is ' . $data['values']["radio"] . '. <br> <br>
+            Jouw voorkeur is ' . $options[$data['values']["radio"]] . '. <br> <br>
             
             ' . $data['values']["text"] . '
         </p>

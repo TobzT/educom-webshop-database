@@ -1,27 +1,32 @@
 <?php 
 require_once("./3 Data/textfile.php");
 require_once("./3 Data/mysqldb.php");
-//LOGIN
-function findByEmail($filename, $email) {
-    return findEmailInFile($filename, $email);
+// FIND
+function findByEmail($conn, $email) {
+    return findByEmailInDb($conn, $email);
 }
 
-//REGISTER
-function saveInDb($filename, $message){
-    return writeToDb($filename, $message);
+function findByEmailB($conn, $email) {
+    return findByEmailInDbB($conn, $email);
 }
 
-function findByEmailB($filename, $string) {
-    return findEmailInFileB($filename, $string);
+// WRITE
+function saveInDb($conn, $useremail, $username, $userpw){
+    return insert($conn, $useremail, $username, $userpw);
 }
 
-//HOME
 
 
-//ABOUT
 
+// I/O
+function openDb() {
+    return openConn();
+}
 
-//CONTACT
+function closeDb($conn) {
+    return closeConn($conn);
+}
+
 
 
 ?>

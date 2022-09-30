@@ -23,7 +23,7 @@ function getData($page) {
     $data = array('page' => $page, "valid" => NULL, 'errors' => array(), 'values' => array());
     $data['meta'] = getMetaData($page);
     if($_SERVER['REQUEST_METHOD'] == "POST") {
-                $data = validateForm($data, ".\users\users.txt");
+                $data = validateForm($data);
             }
             return $data;
 }
@@ -56,23 +56,24 @@ function getMetaData($page) {
     }
 }
 
-function validateForm($data, $filename) {
+function validateForm($data) {
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $data['valid'] = true;
         $data['errors'] = NULL;
         foreach($data['meta'] as $key => $metaArray) {
             
             $data['values'][$key] = test_inputs(getVarFromArray($_POST, $key));
-            $data = validateField($data, $key, $filename);
+            $data = validateField($data, $key);
         }
     }
 
     return $data;
 }
 
-function validateField($data, $key, $filename) {
+function validateField($data, $key) {
     if(!empty($data['meta'][$key]['validations'])){
         $value = $data['values'][$key];
+        $conn = openDb();
         foreach($data['meta'][$key]['validations'] as $validation) {
             switch($validation) { 
                 case 'notEmpty':
@@ -105,7 +106,8 @@ function validateField($data, $key, $filename) {
                     }
                     break;
                 case 'notDuplicateMail':
-                    if(findByEmailB($filename, strtolower($data['values'][$key]))) {
+                    
+                    if(findByEmailB($conn, strtolower($data['values'][$key]))) {
                         $data['valid'] = false;
                         $data['errors'][$key] = 'Dit e-mail adres is al bekend.';
                     }
@@ -124,7 +126,7 @@ function validateField($data, $key, $filename) {
                     }
                     break;
                 case 'correctPassword':
-                    $pwInDb = test_inputs(findByEmail($filename, strtolower(getVarFromArray($_POST, 'email')))['pw']);
+                    $pwInDb = test_inputs(findByEmail($conn, strtolower(getVarFromArray($_POST, 'email')))[3]);
                     $pwInPost = test_inputs($data['values'][$key]);
                     if($pwInDb !== $pwInPost ) {
                         $data['valid'] = false;
@@ -141,6 +143,7 @@ function validateField($data, $key, $filename) {
                     
             }
         }
+        closeDb($conn);
         return $data;
     }
     
@@ -150,11 +153,11 @@ function validateField($data, $key, $filename) {
 //LOGIN
 
 function doLogIn($data) {
-    
-    $_SESSION['username'] = findByEmail("./users/users.txt", $data['values']['email'])['name'];
+    $conn = openDb();
+    $_SESSION['username'] = findByEmail($conn, $data['values']['email'])[2];
     $_SESSION['loggedin'] = true;
     $_SESSION['lastUsed'] = date('Y:m:t-H:m:s');
-    
+    closeDb($conn);
 }
 
 function doLogOut() {
@@ -197,12 +200,11 @@ function checkTimeout($currentTime, $lastTime) {
 }
 //REGISTER
 
-function registerUser($data, $filename) {
+function registerUser($conn, $data) {
     $name = $data['values']['name'];
     $email = $data['values']['email'];
     $pw = $data['values']['pw'];
-    $message = $email . "|" . $name . "|" . $pw;
-    saveInDb($filename, $message);
+    saveInDb($conn, $email, $name, $pw);
 }
 
 

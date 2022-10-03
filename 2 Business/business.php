@@ -126,7 +126,14 @@ function validateField($data, $key) {
                     }
                     break;
                 case 'correctPassword':
-                    $pwInDb = test_inputs(findByEmail($conn, strtolower(getVarFromArray($_POST, 'email')))[3]);
+                    $pwInDb = findByEmail($conn, strtolower(getVarFromArray($_POST, 'email')));
+                    if(count($pwInDb) > 0 ){
+                        $pwInDb = test_inputs($pwInDb[0][3]);
+                    } else {
+                        $data['valid'] = false;
+                        $data['errors'][$key] = 'Deze gebruiker is niet bekend.';
+                        break;
+                    }
                     $pwInPost = test_inputs($data['values'][$key]);
                     if($pwInDb !== $pwInPost ) {
                         $data['valid'] = false;
@@ -154,7 +161,7 @@ function validateField($data, $key) {
 
 function doLogIn($data) {
     $conn = openDb();
-    $_SESSION['username'] = findByEmail($conn, $data['values']['email'])[2];
+    $_SESSION['username'] = findByEmail($conn, $data['values']['email'])[0][2];
     $_SESSION['loggedin'] = true;
     $_SESSION['lastUsed'] = date('Y:m:t-H:m:s');
     closeDb($conn);

@@ -151,8 +151,6 @@ function showContactContent() {
         showContactThanks($data);
         
     } else {
-        
-        
         showMetaForm($data, "Submit");
     }
 }

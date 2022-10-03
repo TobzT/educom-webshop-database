@@ -28,7 +28,7 @@ function insert($conn, $useremail, $username, $userpw) {
       mysqli_query($conn, $sql);
     } 
     catch(error $e){
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn) . "<br>" . $e;
+        echo "Error: " . mysqli_error($conn) . "<br>" . $e;
       }
 }
 
@@ -40,15 +40,15 @@ function findByEmailInDb($conn, $email) {
     $result = mysqli_query($conn, $sql);
     
     $result = mysqli_fetch_all($result);
-    if (count($result) == 1) {
+    if (count($result) > 0) {
       return $result;
     } else {
-      return;
+      return array();
     }
     
   } 
   catch(error $e){
-      echo $e;
+    echo "Error: " . mysqli_error($conn) . "<br>" . $e;
       return;
     }
 }
@@ -61,7 +61,7 @@ function findByEmailInDbB($conn, $email) {
   return false;
 }
 
-$conn = openConn();
-$result = findByEmailInDb($conn, "admin@test.nl");
-closeConn($conn);
+// $conn = openConn();
+// $result = findByEmailInDb($conn, "admin@test.nl");
+// closeConn($conn);
 ?>

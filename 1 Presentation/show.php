@@ -49,6 +49,7 @@ function showHeader($data) {
         <div class="divh"><li class="menu"><a href="index.php?page=home" class="menu">HOME</a></li></div>
         <div class="divh"><li class="menu"><a href="index.php?page=about"class="menu">ABOUT</a></li></div>
         <div class="divh"><li class="menu"><a href="index.php?page=contact"class="menu">CONTACT</a></li></div>
+        <div class="divh"><li class="menu"><a href="index.php?page=webshop"class="menu">WEBSHOP</a></li></div>
     </ul>
     </header>
    ');
@@ -79,6 +80,9 @@ function showContent($data) {
             break;
         case 'logout':
             showHomeContent();
+        case 'webshop':
+            showWebshopContent($data);
+            break;
         default:
             showPageError();
     }
@@ -91,6 +95,13 @@ function endDocument() {
 function linkExternalCss() {
     echo('<link rel="stylesheet" href="./CSS/css.css">');
 }
+
+
+//WEBSHOP
+function showWebshopContent($data) {
+    showItems();
+}
+
 
 //LOGIN
 function ShowLoginContent($data){

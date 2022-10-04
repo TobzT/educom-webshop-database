@@ -49,6 +49,24 @@ footer {
     color: rgb(100, 96, 96);
 }
 
+.shop img {
+    max-width: 20%;
+    max-height: 20%;
+    display: inline;
+    margin-left: 70%;
+    border: 1px solid black;
+    
+}
+
+.shop div {
+    border: 1px solid black;
+}
+
+.shop {
+    font-size: 12px;
+    color: rgb(100, 96, 96);
+}
+
 
 .list ul {
     display: inline;

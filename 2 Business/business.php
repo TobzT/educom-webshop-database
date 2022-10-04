@@ -18,6 +18,8 @@ function getVarFromArray($array, $key, $default = NULL) {
     return isset($array[$key]) ? $array[$key] : $default;
     
 }
+
+
 //DATA
 function getData($page) {
     $data = array('page' => $page, "valid" => NULL, 'errors' => array(), 'values' => array());
@@ -327,7 +329,29 @@ function radioCheck($data, $key, $option) {
 }
 
 
+//WEBSHOP
 
+function showItems() {
+    $conn = openDb();
+    $items = getItems($conn);
+    closeDb($conn);
+    if(count($items) < 1){
+        // TODO ERROR
+    }
+    
+    foreach($items as $item) {
+        showItem($item);
+    }
+
+}
+
+function showItem($info) {
+    echo('<div class="shop" ><h2>' . $info[1] . '</h2>
+        Price: €' . $info[2] . '<br>
+        Description: ' . $info[3] . '<br>
+        <img src='.$info[4].'></div>'
+    );
+}
 
 
 

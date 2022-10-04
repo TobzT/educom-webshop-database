@@ -12,7 +12,7 @@ function findByEmailB($conn, $email) {
 
 // WRITE
 function saveInDb($conn, $useremail, $username, $userpw){
-    return insert($conn, $useremail, $username, $userpw);
+    return insert_users($conn, $useremail, $username, $userpw);
 }
 
 

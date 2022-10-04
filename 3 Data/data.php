@@ -10,6 +10,14 @@ function findByEmailB($conn, $email) {
     return findByEmailInDbB($conn, $email);
 }
 
+function getItemsFromDb($conn) {
+    return getItems($conn);
+}
+
+function getItemFromDb($conn, $id) {
+    return getItem($conn, $id);
+}
+
 // WRITE
 function saveInDb($conn, $useremail, $username, $userpw){
     return insert_users($conn, $useremail, $username, $userpw);

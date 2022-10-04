@@ -83,6 +83,9 @@ function showContent($data) {
         case 'webshop':
             showWebshopContent($data);
             break;
+        case 'details':
+            showDetailsContent($data);
+            break;
         default:
             showPageError();
     }
@@ -99,9 +102,14 @@ function linkExternalCss() {
 
 //WEBSHOP
 function showWebshopContent($data) {
-    showItems();
+    showItems($data);
 }
 
+function showDetailsContent($data) {
+    $data['page'] = getVarFromArray($_GET, 'page', 'home');
+    $data['id'] = getVarFromArray($_GET, 'id', 1);
+    showDetails($data);
+}
 
 //LOGIN
 function ShowLoginContent($data){

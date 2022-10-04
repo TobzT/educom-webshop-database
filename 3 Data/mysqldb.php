@@ -97,6 +97,26 @@ function getItems($conn) {
       return;
     }
 }
+
+function getItem($conn, $id) {
+  $sql = "SELECT * FROM items where id = $id";
+
+  try{
+    $result = mysqli_query($conn, $sql);
+    
+    $result = mysqli_fetch_all($result);
+    if (count($result) > 0) {
+      return $result;
+    } else {
+      return array();
+    }
+    
+  } 
+  catch(error $e){
+    echo "Error: " . mysqli_error($conn) . "<br>" . $e;
+      return;
+    }
+}
 // $conn = openConn();
 // insert_items($conn, "Koffiebonen", 3.49, "Koffiebonen in pak.", "./Images/koffie.jpg");
 // closeConn($conn);

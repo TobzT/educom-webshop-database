@@ -55,6 +55,8 @@ function getMetaData($page) {
                 'radio' => array('label' => 'Communicatievoorkeur: ', 'type' => 'radio', 'options' => getOptions(), 'validations' => array('notEmpty')),
                 'text' => array('label' => '', 'type' => 'textarea', 'validations' => array())
             );
+        default:
+            return NULL;
     }
 }
 
@@ -207,6 +209,7 @@ function checkTimeout($currentTime, $lastTime) {
 
     return true;
 }
+
 //REGISTER
 
 function registerUser($conn, $data) {
@@ -331,26 +334,59 @@ function radioCheck($data, $key, $option) {
 
 //WEBSHOP
 
-function showItems() {
+function showItems($data) {
     $conn = openDb();
-    $items = getItems($conn);
+    $items = getItemsFromDb($conn);
     closeDb($conn);
     if(count($items) < 1){
         // TODO ERROR
     }
-    
+    startGrid('grid');
     foreach($items as $item) {
-        showItem($item);
+        showItem($item);  
     }
+    stopGrid();
 
 }
 
+function startGrid($class) {
+    echo('<div class="'.$class.'">');
+}
+
+function stopGrid() {
+    echo('</div>');
+}
+
 function showItem($info) {
-    echo('<div class="shop" ><h2>' . $info[1] . '</h2>
-        Price: €' . $info[2] . '<br>
-        Description: ' . $info[3] . '<br>
-        <img src='.$info[4].'></div>'
-    );
+    
+    echo('<a href="./index.php?page=details&id='.$info[0].'" class="shop"><div class="shop">');
+    startGrid('innergrid');
+    echo('<div class="itemtitle">
+    <h2>' . $info[1] . '</h2> 
+    </div>
+    <div class="itemimage">
+    <img src='.$info[4].'>
+    </div>');
+    stopGrid();
+    echo('</div></a>');
+}
+
+function showDetails($data) {
+    $id = $data['id'];
+    $conn = openDb();
+    $item = getItemFromDb($conn, $id);
+    if(count($item) < 1){
+        // TODO ERROR
+    }
+    $item = $item[0];
+    closeDb($conn);
+    startGrid('detailgrid');
+    echo('<div class="detailtitle"><h1>'.$item[1].'</h1></div>');
+    echo('<div class="detailprice"><p>€'.$item[2].'</p> <button id="details">add to cart</button></div>');
+    echo('<div class="detaildesc"><p>'.$item[3].'</p> </div>');
+    echo('<div class="detailimg"><img src='.$item[4].'></div>');
+    stopGrid();
+
 }
 
 

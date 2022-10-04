@@ -57,6 +57,10 @@ function processRequest($page){
                 $page = 'login';
             }
             break;
+        case 'details':
+            $id = getVarFromArray($_GET, 'id', NULL);
+            $data['id'] = $id;
+            break;
         
         
     }

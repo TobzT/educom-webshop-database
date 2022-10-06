@@ -1,5 +1,5 @@
 <?php 
-
+include_once("./3 Data/session_manager.php");
 include_once("./3 Data/mysqldb.php");
 // FIND
 function findByEmail($conn, $email) {

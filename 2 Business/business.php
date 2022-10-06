@@ -1,6 +1,5 @@
 <?php 
-include_once('includeDir.php');
-includeOnceDir('./3 Data/');
+
 
 function getGenders() {
     return array("male" => "Dhr",

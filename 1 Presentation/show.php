@@ -1,6 +1,14 @@
 <?php 
-include_once('includeDir.php');
-includeOnceDir('./2 Business/');
+include_once('./1 Presentation/header.php');
+include_once('./1 Presentation/webshop.php');
+include_once('./1 Presentation/home.php');
+include_once('./1 Presentation/about.php');
+include_once('./1 Presentation/contact.php');
+include_once('./1 Presentation/login.php');
+include_once('./1 Presentation/register.php');
+
+include_once('./2 Business/business.php');
+
 
 //INDEX
 function beginDocument() {

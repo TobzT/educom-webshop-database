@@ -3,10 +3,13 @@
 ##############################################################
 #MAIN APP                                                    #
 ##############################################################
-include_once('includeDir.php');
-includeOnceDir("./1 Presentation/");
-includeOnceDir("./2 Business/");
-includeOnceDir("./3 Data/");
+
+include_once("./1 Presentation/show.php");
+include_once("./2 Business/business.php");
+include_once("./3 Data/data.php");
+// includeOnceDir("./1 Presentation/");
+// includeOnceDir("./2 Business/");
+// includeOnceDir("./3 Data/");
 
 session_start();
 date_default_timezone_set('CET');
@@ -74,7 +77,7 @@ function processRequest($page){
                         "webshop" => "WEBSHOP" 
                     );
     if(isUserLoggedIn()) {
-        $data['sideMenu'] = array("logout" => "Log out " . ucfirst(getLoggedInUserName()), "cart" => "CART");
+        $data['sideMenu'] = array("logout" => "Log out " . ucfirst(getLoggedInUserName()), "cart" => "Cart");
     } else {
         $data['sideMenu'] = array('login' => 'Log In', 'register' => 'Sign Up');
     }  

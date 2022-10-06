@@ -67,6 +67,17 @@ function processRequest($page){
         
     }
     $data['page'] = $page;
+    $data['menu'] = array(
+                        "home" => "HOME",
+                        "about" => "ABOUT", 
+                        "contact" => "CONTACT", 
+                        "webshop" => "WEBSHOP" 
+                    );
+    if(isUserLoggedIn()) {
+        $data['sideMenu'] = array("logout" => "Log out " . ucfirst(getLoggedInUserName()), "cart" => "CART");
+    } else {
+        $data['sideMenu'] = array('login' => 'Log In', 'register' => 'Sign Up');
+    }  
     return $data;
 }
 

@@ -164,7 +164,6 @@ function validateField($data, $key) {
 function doLogIn($data) {
     $conn = openDb();
     $_SESSION['username'] = findByEmail($conn, $data['values']['email'])[0][2];
-    $_SESSION['loggedin'] = true;
     $_SESSION['lastUsed'] = date('Y:m:t-H:m:s');
     $_SESSION['cart'] = array();
     closeDb($conn);
@@ -172,7 +171,6 @@ function doLogIn($data) {
 
 function doLogOut() {
     $_SESSION['username'] = NULL;
-    $_SESSION['loggedin'] = false;
     $_SESSION['lastUsed'] = NULL;
     $_SESSION['cart'] = NULL;
 }

@@ -25,42 +25,21 @@ function showBody($data) {
     
 
 }
-function showMenuItem($link, $labeltext) {
-    return '<div class="divh"><li class="menu"><a href="'.$link.'" class="menu">'.$labeltext.'</a></li></div>';
+
+
+function showHeader($data) {
+    startHeader();
+    showTitle($data['page']);
+    showSideMenu($data);
+    showMenu($data);
+    stopHeader();
+}
+function startHeader() {
+    echo '<header>';
 }
 
-function showSideMenuItem($link, $labeltext) {
-    return '<a href="'.$link.'" class="menu">'.$labeltext.'</a>';
-}
-function showHeader($data) {
-    if($_SESSION['loggedin'] == true) {
-        $register = '
-        <div class="register">
-            '.showSideMenuItem('index.php?page=logout', 'Log Out ' . ucfirst($_SESSION['username'])).'<br>
-            '.showSideMenuItem('index.php?page=cart', 'Cart').'    
-        </div>
-        ';
-    } else {
-        $register = '
-        <div class="register">
-            '.showSideMenuItem('index.php?page=login', 'Log In').'
-            '.showSideMenuItem('index.php?page=register', 'Sign up').'
-        </div>
-        ';
-    }
-   echo('
-    <header>
-        '.$register.'
-        <h1 class="header">'. ucfirst($data['page']) .'</h1>
-        
-        <ul class="list">
-        '.showMenuItem('index.php?page=home', 'HOME').'
-        '.showMenuItem('index.php?page=about', 'ABOUT').'
-        '.showMenuItem('index.php?page=contact', 'CONTACT').'
-        '.showMenuItem('index.php?page=webshop', 'WEBSHOP').'
-    </ul>
-    </header>
-   ');
+function stopHeader() {
+    echo '</header>';
 }
 
 
@@ -101,6 +80,8 @@ function showContent($data) {
             showPageError();
     }
 }
+
+
 
 function endDocument() {
     echo('</html>');

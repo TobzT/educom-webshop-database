@@ -233,5 +233,6 @@ h1 {
     display: inline;
     position: relative;
     float: right;
+    justify-content: right;
     width: 10%;
 }

@@ -3,9 +3,10 @@
 ##############################################################
 #MAIN APP                                                    #
 ##############################################################
-require_once("./1 Presentation/show.php");
-require_once("./2 Business/business.php");
-require_once("./3 Data/data.php");
+include_once('includeDir.php');
+includeOnceDir("./1 Presentation/");
+includeOnceDir("./2 Business/");
+includeOnceDir("./3 Data/");
 
 session_start();
 date_default_timezone_set('CET');
@@ -29,16 +30,16 @@ function processRequest($page){
     switch($page) {
         case 'contact':
             $data = getData('contact');
-            $data = validateForm($data, "./users/users.txt");
-            if($data['valid'] == true){
+            $data = validateForm($data);
+            if($data['valid']){
                 $page = 'thanks';
             }
             break;
         case 'login':
             $data = getData('login');
             // var_dump($data);
-            
-            if($data['valid'] == true) {
+            $data = validateForm($data);
+            if($data['valid']) {
                 doLogin($data);
                 $page = 'home';
             }
@@ -50,6 +51,7 @@ function processRequest($page){
             break;
         case 'register':
             $data = getData('register');
+            $data = validateForm($data);
             if($data['valid']) {
                 $conn = openDb();
                 registerUser($conn, $data);

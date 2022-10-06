@@ -1,5 +1,6 @@
 <?php 
-require_once('./2 Business/business.php');
+include_once('includeDir.php');
+includeOnceDir('./2 Business/');
 
 //INDEX
 function beginDocument() {
@@ -29,7 +30,8 @@ function showHeader($data) {
     if($_SESSION['loggedin'] == true) {
         $register = '
         <div class="register">
-            <a href="index.php?page=logout" class="menu">Log Out ' . ucfirst($_SESSION['username']) . '</a>
+            <a href="index.php?page=logout" class="menu">Log Out ' . ucfirst($_SESSION['username']) . '</a> <br>
+            <a href="index.php?page=cart" class="menu"> Cart </a>
         </div>
         ';
     } else {
@@ -86,6 +88,9 @@ function showContent($data) {
         case 'details':
             showDetailsContent($data);
             break;
+        case 'cart':
+            showCartContent();
+            break;
         default:
             showPageError();
     }
@@ -109,6 +114,14 @@ function showDetailsContent($data) {
     $data['page'] = getVarFromArray($_GET, 'page', 'home');
     $data['id'] = getVarFromArray($_GET, 'id', 1);
     showDetails($data);
+}
+
+function showCartContent() {
+    if(checkCart()) {
+        showCart();
+    } else {
+        echo('<div>Cart is empty</div>');
+    }
 }
 
 //LOGIN

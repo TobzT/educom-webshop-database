@@ -1,5 +1,6 @@
 <?php 
-require_once('./3 Data/data.php');
+include_once('includeDir.php');
+includeOnceDir('./3 Data/');
 
 function getGenders() {
     return array("male" => "Dhr",
@@ -24,10 +25,7 @@ function getVarFromArray($array, $key, $default = NULL) {
 function getData($page) {
     $data = array('page' => $page, "valid" => NULL, 'errors' => array(), 'values' => array());
     $data['meta'] = getMetaData($page);
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
-                $data = validateForm($data);
-            }
-            return $data;
+    return $data;
 }
 
 function getMetaData($page) {
@@ -168,6 +166,7 @@ function doLogIn($data) {
     $_SESSION['username'] = findByEmail($conn, $data['values']['email'])[0][2];
     $_SESSION['loggedin'] = true;
     $_SESSION['lastUsed'] = date('Y:m:t-H:m:s');
+    $_SESSION['cart'] = array();
     closeDb($conn);
 }
 
@@ -175,6 +174,7 @@ function doLogOut() {
     $_SESSION['username'] = NULL;
     $_SESSION['loggedin'] = false;
     $_SESSION['lastUsed'] = NULL;
+    $_SESSION['cart'] = NULL;
 }
 
 function session_check() {
@@ -208,6 +208,18 @@ function checkTimeout($currentTime, $lastTime) {
     }
 
     return true;
+}
+
+function checkCart() {
+    if(isset($_SESSION['cart'])) {
+        if(count($_SESSION['cart']) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
 
 //REGISTER
@@ -387,6 +399,20 @@ function showDetails($data) {
     echo('<div class="detailimg"><img src='.$item[4].'></div>');
     stopGrid();
 
+}
+
+function showCart() {
+    echo('<div class="body">test test</div>');
+}
+
+function addToCart($id, $count) {
+    if(array_key_exists($id, $_SESSION['cart'])) {
+        $_SESSION['cart'][$id] += $count;
+    } else {
+        $_SESSION['cart'][$id] = $count;
+    }
+
+    
 }
 
 

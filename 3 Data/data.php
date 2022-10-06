@@ -1,6 +1,6 @@
 <?php 
-// require_once("./3 Data/textfile.php");
-require_once("./3 Data/mysqldb.php");
+
+include_once("./3 Data/mysqldb.php");
 // FIND
 function findByEmail($conn, $email) {
     return findByEmailInDb($conn, $email);

@@ -106,103 +106,12 @@ function linkExternalCss() {
 
 
 //WEBSHOP
-function showWebshopContent($data) {
-    showItems($data);
-}
 
-function showDetailsContent($data) {
-    $data['page'] = getVarFromArray($_GET, 'page', 'home');
-    $data['id'] = getVarFromArray($_GET, 'id', 1);
-    showDetails($data);
-}
-
-function showCartContent() {
-    if(checkCart()) {
-        showCart();
-    } else {
-        echo('<div>Cart is empty</div>');
-    }
-}
 
 //LOGIN
-function ShowLoginContent($data){
-    $data = getData('login');
-    
-    showMetaForm($data, "Log in");
-}
-
-//REGISTER
-function showRegisterContent() {
-    $data = getData('register');
-    
-
-    showMetaForm($data, "Sign up");
-    
-}
-
-//HOME
-function showHomeContent() {
-    echo('
-        <p class="body">
-            Welcome to the website, dear traveler. <br>
-            Here we will have some fun while also learning a thing or two. <br>
-            See you around traveler!
-        </p>'
-        );
-}
-
-//ABOUT
-function showAboutContent() {
-    echo('
-        <div class="body">
-            <p>My name is Tobias, and I am building this website right now. <br>
-                I am planning on making this a bigger project, but everyone has to start somewhere.
-            </p>
 
 
-            <p>
-                My hobbies consist of:<br>
-                <ul>
-                    <li>Music production</li>
-                    <li>Video games (mainly first person shooters)</li>
-                    <li>Sports (tennis, table tennis, basket ball)</li>
-                </ul>
-            </p>
 
-            <p>If you have any questions, go over to the contact page. You can find information there.</p>
-        </div>
-    ');
-}
-
-//CONTACT
-function showContactContent() {
-    $data = getData('contact');
-
-    // var_dump($data);
-    if($data["valid"] == true) {
-        showContactThanks($data);
-        
-    } else {
-        showMetaForm($data, "Submit");
-    }
-}
-
-function showContactThanks($data) {
-    $genders = getGenders();
-    $options = getOptions();
-    echo(
-        '<p class="body">
-            Dankjewel ' . $genders[$data['values']['gender']] . " " . ucfirst($data['values']['name']) . '! <br> <br>
-
-            Jouw e-mail adres is ' . $data['values']["email"] . '. <br>
-            Jouw telefoonnummer is ' . $data['values']["tlf"] . '. <br>
-            Jouw voorkeur is ' . $options[$data['values']["radio"]] . '. <br> <br>
-            
-            ' . $data['values']["text"] . '
-        </p>
-        '
-    );
-}
 
 function ShowFormStart() {
     echo('<form action="index.php" method="post" class="body">');

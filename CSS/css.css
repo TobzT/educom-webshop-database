@@ -51,7 +51,7 @@ footer {
 
 .grid {
     display: grid;
-    width: 99.6%;
+    width: 99.88%;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 200px;
     margin-top: 5px;
@@ -61,7 +61,7 @@ footer {
 }
 
 .innergrid {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 4fr;
     justify-content: center;

@@ -25,20 +25,26 @@ function showBody($data) {
     
 
 }
+function showMenuItem($link, $labeltext) {
+    return '<div class="divh"><li class="menu"><a href="'.$link.'" class="menu">'.$labeltext.'</a></li></div>';
+}
 
+function showSideMenuItem($link, $labeltext) {
+    return '<a href="'.$link.'" class="menu">'.$labeltext.'</a>';
+}
 function showHeader($data) {
     if($_SESSION['loggedin'] == true) {
         $register = '
         <div class="register">
-            <a href="index.php?page=logout" class="menu">Log Out ' . ucfirst($_SESSION['username']) . '</a> <br>
-            <a href="index.php?page=cart" class="menu"> Cart </a>
+            '.showSideMenuItem('index.php?page=logout', 'Log Out ' . ucfirst($_SESSION['username'])).'<br>
+            '.showSideMenuItem('index.php?page=cart', 'Cart').'    
         </div>
         ';
     } else {
         $register = '
         <div class="register">
-            <a href="index.php?page=login" class="menu">Log In</a>
-            <a href="index.php?page=register" class="menu">Sign up</a>
+            '.showSideMenuItem('index.php?page=login', 'Log In').'
+            '.showSideMenuItem('index.php?page=register', 'Sign up').'
         </div>
         ';
     }
@@ -48,10 +54,10 @@ function showHeader($data) {
         <h1 class="header">'. ucfirst($data['page']) .'</h1>
         
         <ul class="list">
-        <div class="divh"><li class="menu"><a href="index.php?page=home" class="menu">HOME</a></li></div>
-        <div class="divh"><li class="menu"><a href="index.php?page=about"class="menu">ABOUT</a></li></div>
-        <div class="divh"><li class="menu"><a href="index.php?page=contact"class="menu">CONTACT</a></li></div>
-        <div class="divh"><li class="menu"><a href="index.php?page=webshop"class="menu">WEBSHOP</a></li></div>
+        '.showMenuItem('index.php?page=home', 'HOME').'
+        '.showMenuItem('index.php?page=about', 'ABOUT').'
+        '.showMenuItem('index.php?page=contact', 'CONTACT').'
+        '.showMenuItem('index.php?page=webshop', 'WEBSHOP').'
     </ul>
     </header>
    ');

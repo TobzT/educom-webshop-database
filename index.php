@@ -68,13 +68,26 @@ function processRequest($page){
             break;
         case 'cart':
             if($_SERVER["REQUEST_METHOD"] == "POST") {
+                $type = getVarFromArray($_POST, 'type', NULL);
                 $id = getVarFromArray($_POST, 'id', NULL);
-                $count = getVarFromArray($_POST, 'count', 0);
-                if($id !== NULL && $count !== 0) {
-                    addToCart($id, $count);
+                switch($type) {
+                    case "details":
+                        $count = getVarFromArray($_POST, 'count', 0);
+                        if($id !== NULL && $count !== 0) {
+                            addToCart($id, $count);
+                        }
+                        $page = 'details';
+                        $_GET['id'] = $id;
+                        break;
+                    
+                    case "remove":
+                        $_SESSION['cart'][$id] = 0;
+                        break;
+
+                    
+                    
                 }
-                $page = 'details';
-                $_GET['id'] = $id;
+                
 
             }
         

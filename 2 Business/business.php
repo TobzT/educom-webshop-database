@@ -391,7 +391,7 @@ function showDetails($data) {
     closeDb($conn);
     startGrid('detailgrid');
     echo('<div class="detailtitle"><h1>'.$item[1].'</h1></div>');
-    echo('<div class="detailprice"><p>€'.$item[2].'</p> <form method="post" action="index.php"><input type="hidden" name="id" value="'.$item[0].'"><input type="hidden" name="count" value="1"><input type="hidden" name="page" value="cart"><button id="details" type="submit">add to cart</button></form></div>');
+    echo('<div class="detailprice"><p>€'.round($item[2], 2).'</p> <form method="post" action="index.php"><input type="hidden" name="id" value="'.$item[0].'"><input type="hidden" name="count" value="1"><input type="hidden" name="page" value="cart"><button id="details" type="submit">add to cart</button></form></div>');
     echo('<div class="detaildesc"><p>'.$item[3].'</p> </div>');
     echo('<div class="detailimg"><img src='.$item[4].'></div>');
     stopGrid();
@@ -419,17 +419,17 @@ function cartLine($conn, $id, $count) {
     $item = getItemFromDb($conn, $id)[0];
     echo('<div class="cartItem"  id="image"><img src="'.$item[4].'"></div>');
     echo('<div class="cartItem"  id="name">'.$item[1].'</div>');
-    echo('<div class="cartItem"  id="price">'.$item[2].'</div>');
+    echo('<div class="cartItem"  id="price">'.round($item[2], 2).'</div>');
     echo('<div class="cartItem"  id="count">'.$count.'</div>');
     $subtotal = (int)$count * (float)$item[2];
-    echo('<div class="cartItem"  id="subtotal">'.$subtotal.'</div>');
+    echo('<div class="cartItem"  id="subtotal">'.round($subtotal, 2).'</div>');
 
     return $subtotal;
 }
 
 function showTotal($total) {
     echo('<div class="cartItem" id="rest"></div>');
-    echo('<div class="cartItem" id="subtotal">'.$total.'</div>');
+    echo('<div class="cartItem" id="subtotal">'.round($total, 2).'</div>');
 }
 
 function showCartHeaders(){

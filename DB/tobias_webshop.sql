@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Gegenereerd op: 04 okt 2022 om 08:32
+-- Gegenereerd op: 10 okt 2022 om 08:58
 -- Serverversie: 10.4.25-MariaDB
 -- PHP-versie: 8.1.10
 
@@ -44,7 +44,8 @@ INSERT INTO `items` (`id`, `name`, `price`, `description`, `path`) VALUES
 (2, 'Tomatensoep', 2.39, 'Tomatensoep met creme.', './Images/soep.png'),
 (3, 'Limonadesiroop', 2.49, 'Limonadesiroop met bosbessensmaak.', './Images/limo.jpg'),
 (4, 'Maïs', 1.19, 'Maïskorrels in blik.', './Images/mais.jpg'),
-(5, 'Koffiebonen', 3.49, 'Koffiebonen in pak.', './Images/koffie.jpg');
+(5, 'Koffiebonen', 3.49, 'Koffiebonen in pak.', './Images/koffie.jpg'),
+(6, 'Sojabonen', 2.49, 'Sojabonen voor in de salade.', './Images/sojabonen.jpg');
 
 -- --------------------------------------------------------
 
@@ -95,7 +96,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`

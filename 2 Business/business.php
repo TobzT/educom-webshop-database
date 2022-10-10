@@ -391,7 +391,7 @@ function showDetails($data) {
     closeDb($conn);
     startGrid('detailgrid');
     echo('<div class="detailtitle"><h1>'.$item[1].'</h1></div>');
-    echo('<div class="detailprice"><p>€'.$item[2].'</p> <button id="details">add to cart</button></div>');
+    echo('<div class="detailprice"><p>€'.$item[2].'</p> <form method="post" action="index.php"><input type="hidden" name="id" value="'.$item[0].'"><input type="hidden" name="count" value="1"><input type="hidden" name="page" value="cart"><button id="details" type="submit">add to cart</button></form></div>');
     echo('<div class="detaildesc"><p>'.$item[3].'</p> </div>');
     echo('<div class="detailimg"><img src='.$item[4].'></div>');
     stopGrid();
@@ -399,15 +399,58 @@ function showDetails($data) {
 }
 
 function showCart() {
-    echo('<div class="body">test test</div>');
+    $total = 0;
+    echo('<div class="cartGrid">');
+    showCartHeaders();
+    $conn = openDb();
+    foreach($_SESSION['cart'] as $id => $count) {
+        $total += cartLine($conn, $id, $count);
+    }
+    echo('</div>');
+    closeDb($conn);
+    echo('<div class="cartGrid">');
+    showTotal($total);
+    echo('</div>');
+    
+    
+}
+
+function cartLine($conn, $id, $count) {
+    $item = getItemFromDb($conn, $id)[0];
+    echo('<div class="cartItem"  id="image"><img src="'.$item[4].'"></div>');
+    echo('<div class="cartItem"  id="name">'.$item[1].'</div>');
+    echo('<div class="cartItem"  id="price">'.$item[2].'</div>');
+    echo('<div class="cartItem"  id="count">'.$count.'</div>');
+    $subtotal = (int)$count * (float)$item[2];
+    echo('<div class="cartItem"  id="subtotal">'.$subtotal.'</div>');
+
+    return $subtotal;
+}
+
+function showTotal($total) {
+    echo('<div class="cartItem" id="rest"></div>');
+    echo('<div class="cartItem" id="subtotal">'.$total.'</div>');
+}
+
+function showCartHeaders(){
+    echo('<div class="cartItem"  id="image"></div>');
+    echo('<div class="cartItem"  id="name">Naam</div>');
+    echo('<div class="cartItem"  id="price">Prijs</div>');
+    echo('<div class="cartItem"  id="count">Aantal</div>');
+    echo('<div class="cartItem"  id="subtotal">Subtotaal</div>');
 }
 
 function addToCart($id, $count) {
-    if(array_key_exists($id, $_SESSION['cart'])) {
-        $_SESSION['cart'][$id] += $count;
-    } else {
-        $_SESSION['cart'][$id] = $count;
+    if (isset($_SESSION['username'])){
+        if(array_key_exists($id, $_SESSION['cart'])) {
+            $_SESSION['cart'][$id] += (int)$count;
+        } else {
+            $_SESSION['cart'][$id] = (int)$count;
+        }
     }
+
+    
+    
 
     
 }

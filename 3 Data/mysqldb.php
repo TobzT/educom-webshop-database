@@ -118,7 +118,7 @@ function getItem($conn, $id) {
     }
 }
 // $conn = openConn();
-// insert_items($conn, "Koffiebonen", 3.49, "Koffiebonen in pak.", "./Images/koffie.jpg");
+// insert_items($conn, "Sojabonen", 2.50, "Sojabonen voor in de salade.", "./Images/sojabonen.jpg");
 // closeConn($conn);
 
 ?>

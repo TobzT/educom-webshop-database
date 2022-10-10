@@ -1,4 +1,5 @@
 <?php 
+include_once("./1 Presentation/cart.php");
 function showWebshopContent($data) {
     showItems($data);
 }
@@ -9,11 +10,5 @@ function showDetailsContent($data) {
     showDetails($data);
 }
 
-function showCartContent() {
-    if(checkCart()) {
-        showCart();
-    } else {
-        echo('<div>Cart is empty</div>');
-    }
-}
+
 ?>

@@ -66,6 +66,17 @@ function processRequest($page){
             $id = getVarFromArray($_GET, 'id', NULL);
             $data['id'] = $id;
             break;
+        case 'cart':
+            if($_SERVER["REQUEST_METHOD"] == "POST") {
+                $id = getVarFromArray($_POST, 'id', NULL);
+                $count = getVarFromArray($_POST, 'count', 0);
+                if($id !== NULL && $count !== 0) {
+                    addToCart($id, $count);
+                }
+                $page = 'details';
+                $_GET['id'] = $id;
+
+            }
         
         
     }

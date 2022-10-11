@@ -398,7 +398,7 @@ function showItem($item) {
                 <input type="hidden" name="type" value="details">
                 <input type="hidden" name="count" value="1">
                 <input type="hidden" name="page" value="cart">
-                <button id="details" type="submit">add to cart </button>';
+                <button id="details" type="submit">add to cart </button></form>';
     $button = showShopItemComp('shopButton', showDiv('center', 'fillbox', $button_1));
     startGrid('shopItem');
     echo(showDiv('', 'fillbox', $title));

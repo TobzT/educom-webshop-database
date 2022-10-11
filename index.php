@@ -84,6 +84,11 @@ function processRequest($page){
                         $_SESSION['cart'][$id] = 0;
                         break;
 
+                    case "count":
+                        $value = getVarFromArray($_POST, 'value', NULL);
+                        $_SESSION['cart'][$id] = $value;
+                        break;
+
                     
                     
                 }

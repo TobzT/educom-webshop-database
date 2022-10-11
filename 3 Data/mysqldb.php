@@ -77,10 +77,9 @@ function insert_items($conn, $itemname, $itemprice, $itemdesc, $imagepath) {
       }
 }
 
-
-function getItems($conn) {
+function getAllItems($conn) {
+  
   $sql = "SELECT * FROM items";
-
   try{
     $result = mysqli_query($conn, $sql);
     
@@ -99,7 +98,7 @@ function getItems($conn) {
 }
 
 function getItem($conn, $id) {
-  $sql = "SELECT * FROM items where id = $id";
+  $sql = "SELECT * FROM items WHERE id = $id";
 
   try{
     $result = mysqli_query($conn, $sql);
@@ -117,6 +116,38 @@ function getItem($conn, $id) {
       return;
     }
 }
+
+
+function getItems($conn, $idArray) {
+  $items = '';
+  for($i = 0; $i < count($idArray); $i++) {
+    $id = $idArray[$i];
+    $items .= " id = $id";
+
+    if ($i < count($idArray) - 1) {
+      $items .= " OR";
+    }
+  }
+  $sql = "SELECT * FROM items WHERE $items";
+
+  try{
+    $result = mysqli_query($conn, $sql);
+    
+    $result = mysqli_fetch_all($result);
+    if (count($result) > 0) {
+      return $result;
+    } else {
+      return array();
+    }
+    
+  } 
+  catch(error $e){
+    echo "Error: " . mysqli_error($conn) . "<br>" . $e;
+      return;
+    }
+}
+
+
 // $conn = openConn();
 // insert_items($conn, "Sojabonen", 2.50, "Sojabonen voor in de salade.", "./Images/sojabonen.jpg");
 // closeConn($conn);

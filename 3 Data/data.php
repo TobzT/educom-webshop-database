@@ -10,8 +10,12 @@ function findByEmailB($conn, $email) {
     return findByEmailInDbB($conn, $email);
 }
 
-function getItemsFromDb($conn) {
-    return getItems($conn);
+function getAllItemsFromDb($conn) {
+    return getAllItems($conn);
+}
+
+function getItemsFromDb($conn, $idArray) {
+    return getItems($conn, $idArray);
 }
 
 function getItemFromDb($conn, $id) {

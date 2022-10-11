@@ -352,22 +352,6 @@ function radioCheck($data, $key, $option) {
 
 
 //WEBSHOP
-
-function showItems($data) {
-    $conn = openDb();
-    $items = getItemsFromDb($conn);
-    closeDb($conn);
-    if(count($items) < 1){
-        // TODO ERROR
-    }
-    startGrid('grid');
-    foreach($items as $item) {
-        showItem($item);  
-    }
-    stopGrid();
-
-}
-
 function startGrid($class) {
     echo('<div class="'.$class.'">');
 }
@@ -376,26 +360,81 @@ function stopGrid() {
     echo('</div>');
 }
 
-function showItem($info) {
-    
-    echo('<a href="./index.php?page=details&id='.$info[0].'" class="shop"><div class="shop">');
-    startGrid('innergrid');
-    echo('<div class="itemtitle">
-    <h2>' . $info[1] . '</h2> 
-    </div>
-    <div class="itemimage">
-    <img src='.$info[4].'>
-    </div>');
-    stopGrid();
-    echo('</div></a>');
+function showShopItemComp($cssId, $value) {
+    return('<div class="subShopItem" id='.$cssId.'> '.$value.'</div>');
 }
+
+function showImg($cssId, $path) {
+    return('<img id="'.$cssId.'"src='.$path.'>');
+}
+
+function showDiv($class, $cssId, $content) {
+    return('<div class="'.$class.'" id="'.$cssId.'">'.$content.'</div>');
+}
+
+
+
+function showItems($data) {
+    $conn = openDb();
+    $items = getAllItemsFromDb($conn);
+    closeDb($conn);
+    if(count($items) < 1){
+        // TODO ERROR
+    }
+    startGrid('shopGrid');
+    foreach($items as $item) {
+        showItem($item);  
+    }
+    stopGrid();
+
+}
+
+function showItem($item) {
+    echo('<a href="index.php?page=details&id='.$item[0].'">');
+    $title = showShopItemComp('shopTitle', showDiv('center', 'fillbox', '<h3>'.$item[1].'</h3>'));
+    $body = showShopItemComp('shopImg', showImg('fillbox', $item[4])); //showImg('fillbox', $item[4])
+    $button_1 = '<form method="post" action="index.php">
+                <input type="hidden" name="id" value="'.$item[0].'">
+                <input type="hidden" name="type" value="details">
+                <input type="hidden" name="count" value="1">
+                <input type="hidden" name="page" value="cart">
+                <button id="details" type="submit">add to cart </button>';
+    $button = showShopItemComp('shopButton', showDiv('center', 'fillbox', $button_1));
+    startGrid('shopItem');
+    echo(showDiv('', 'fillbox', $title));
+    echo(showDiv('', 'fillbox', $body));
+    echo(showDiv('', 'fillbox', $button));
+    stopGrid();
+    echo('</a>');
+
+}
+
+
+
+
+
+
+
+// function showItem($info) {
+    
+//     echo('<a href="./index.php?page=details&id='.$info[0].'">');
+//     startGrid('innerShopGrid');
+    
+//     showShopItemComp('itemtitle', '<h3>'. $info[1].'</h3>');
+//     showShopItemComp('itemimg', 'testimg'); //showImg('fleximg', $info[4])
+//     showShopItemComp('itembutton', 'testing');
+    
+//     stopGrid();
+//     echo('</a>');
+    
+// }
 
 function showDetails($data) {
     $id = $data['id'];
     $conn = openDb();
     $item = getItemFromDb($conn, $id);
     if(count($item) < 1){
-        // TODO ERROR
+        //TODO ERROR
     }
     $item = $item[0];
     closeDb($conn);
@@ -418,11 +457,21 @@ function showCart() {
     $total = 0;
     startGrid('cartGrid');
     showCartHeaders();
-    $conn = openDb();
     foreach($_SESSION['cart'] as $id => $count) {
-        $total += cartLine($conn, $id, $count);
+        if($count < 1) {
+            unset($_SESSION['cart'][$id]);
+        }
     }
+    $conn = openDb();
+    $result = getItems($conn, array_keys($_SESSION['cart']));
     closeDb($conn);
+    $itemArray = [];
+    foreach($result as $item){
+        $itemArray[$item[0]] = ['name' => $item[1], 'price' => $item[2], 'desc' => $item[3], 'path' => $item[4]];
+    }
+    foreach($_SESSION['cart'] as $id => $count) {
+        $total += cartLine($conn, $itemArray, $id, $count);
+    }
     stopGrid();
     startGrid('cartGrid');
     showTotal($total);
@@ -435,44 +484,47 @@ function showCart() {
     
 }
 
-function cartLine($conn, $id, $count) {
-    $item = getItemFromDb($conn, $id)[0];
+function cartLine($conn, $itemArray, $id, $count) {
     if($count > 0){
-        startCartLine($id);
-    showCartItem('image', $item[4], true);
-    showCartItem('name', $item[1]);
-    showCartItem('price', round($item[2], 2)); 
-    showCartItem('count', $count);
-    $subtotal = round((int)$count * (float)$item[2], 2);
-    showCartItem('subtotal', $subtotal);
-    showCartItem('remove', showRemoveButton($id));
-    
-    stopCartLine($id);
-    return $subtotal;
+        startCartLine();
+        showCartItem('image', $id, $itemArray[$id]['path'], true);
+        showCartItem('name', $id, $itemArray[$id]['name']);
+        showCartItem('price', $id, '€ ' . round($itemArray[$id]['price'], 2)); 
+        showCartItem('count', $id, showCountForm($count, $id));
+        $subtotal = round((int)$count * (float)$itemArray[$id]['price'], 2);
+        showCartItem('subtotal', $id, '€ ' . round($subtotal, 2));
+        showCartItem('remove', $id, showRemoveButton($id));
+        
+        stopCartLine();
+        return $subtotal;
     }
     return 0;
     
 }
 
-function showCartItem($cssId, $value = null, $image = false) {
+function showCartItem($cssId, $id = NULL, $value = null, $image = false) {
     if($image) {
         $value = '<img src="'.$value.'">';
     }
-    echo('<div class="cartItem" id="'.$cssId.'">'.$value.'</div>');
+    if($cssId !== 'count' && $id !== NULL) {
+        echo('<a class="cartItem" id="'.$cssId.'" href="index.php?page=details&id='.$id.'">'.$value.'</a>');
+    } else {
+        echo('<div class="cartItem" id="'.$cssId.'">'.$value.'</div>');
+    }
+    
+    // if($cssId !== 'count' && $id !== NULL) { echo('</a>'); }
+
 }
 
 function showTotal($total) {
     startCartLine();
     showCartItem('rest');
-    showCartItem('total', round($total, 2));
+    showCartItem('total', NULL, '€ ' . round($total, 2));
     showCartItem('remove');
     stopCartLine();
 }
 
-function startCartLine($ID=null) {
-    if($ID !== null) {
-        echo('<a href="index.php?page=details&id='.$ID.'" id="line">');
-    }
+function startCartLine() {
     echo('<div class="cartLine" id="line">');
 }
 
@@ -486,19 +538,23 @@ function stopCartLine($id = null) {
 function showCartHeaders(){
     startCartLine();
     showCartItem('image');
-    showCartItem('name', 'Naam');
-    showCartItem('price', 'Prijs');
-    showCartItem('count', 'Aantal');
-    showCartItem('subtotal','Subtotaal');
+    showCartItem('name', NULL, 'Naam');
+    showCartItem('price', NULL, 'Prijs');
+    showCartItem('count', NULL, 'Aantal');
+    showCartItem('subtotal', NULL, 'Subtotaal');
     stopCartLine();
 }
-function showCountForm($count) {
+function showCountForm($count, $id) {
     $html = '
-        <form method="post" action="index.html?page="TODO">
-            <input type=number value="'.$count.'" id="small"></input>
+        <form method="post" action="index.php">
+            <input type="hidden" name="page" value="cart">
+            <input type="hidden" name="type" value="count">
+            <input type="hidden" name="id" value="'.$id.'">
+            <input type="number" name="value" value="'.$count.'" id="small"></input>
             <button type="submit">Apply</button>
         </form>
     ';
+    // <button type="submit">Apply</button>
     return $html;
 }
 
@@ -522,11 +578,11 @@ function showOrderButton() {
     echo('<div class="cartItem" id="total">');
     echo('<form method="post" action="index.php">');
     echo('<input type="hidden" name="type" value="order">');
-    echo('<input type="hidden" name="page" value="cart"');
-    echo('<button action="submit">Order</button>');
+    echo('<input type="hidden" name="page" value="cart">');
+    echo('<button type="submit">Order</button>');
     echo('</form>');
-    showCartItem('remove');
     echo('</div>');
+    showCartItem('remove');
     stopCartLine();
 }
 

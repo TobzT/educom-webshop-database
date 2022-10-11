@@ -51,23 +51,103 @@ footer {
 
 
 /* WEBSHOP */
-.grid {
+.shopGrid {
     display: grid;
     width: 99.88%;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 200px;
+    grid-auto-rows: 300px;
     margin-top: 5px;
     column-gap: 2%;
-    row-gap: 20px;
+    row-gap: 40px;
+    height: 100%;
     justify-content: center;
 }
 
-.innergrid {
+
+
+.shopItem {
     display: inline-grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: 1fr 2fr 1fr;
+    border: 1px solid black;
+    
+}
+
+.subShopItem {
+    display: inline-flex;
+    max-width: 100%;
+    max-height: 90%;
     justify-content: center;
 }
+
+.center {
+    justify-content: center;
+}
+
+#shopTitle {
+    grid-row: 1 / span 1;
+}
+
+#shopImg {
+    display: inline-grid;
+    grid-row: 2 / span 1;
+    /* padding: 3px; */
+    max-height: 200px;
+    max-width: 200px;
+    justify-self: center;
+    align-self: center;
+}
+
+#shopButton {
+    grid-row: 3 / span 1;
+}
+
+#fillbox {
+    display: inline-grid;
+    width: 100%;
+    height: 100%;
+}
+
+/* .innerShopGrid {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 4fr 1fr;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.shopItem {
+    display: inline-grid;
+    height: 100%;
+    width: 100%;
+    justify-self: center;
+    
+}
+
+#itemtitle {
+    grid-row: 1 / span 1;
+}
+
+#itemimg {
+    grid-row: 2 / span 1;
+}
+
+#link {
+    grid-row: 1 / span 3;
+}
+
+#fleximg {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 90%;
+}
+
+#itembutton {
+    grid-row: 3 / span 1;
+} */
+
+
 
 .detailgrid {
     display: grid;
@@ -142,7 +222,7 @@ footer {
     text-decoration: none;
 }
 
-a > .cartLine > div {
+.cartLine > div {
     text-decoration: none;
     display: inline-grid;
     font-size: 16px;
@@ -150,6 +230,18 @@ a > .cartLine > div {
     min-height: 30px;
     max-width: 100%;
     max-height: 100%;
+    
+}
+.cartLine > a {
+    
+    text-decoration: none;
+    display: inline-grid;
+    font-size: 16px;
+    color: rgb(100, 96, 96);
+    min-height: 30px;
+    max-width: 100%;
+    max-height: 100%;
+    max-height: 120px;
     
 }
 .cartLine > div {
@@ -168,13 +260,21 @@ a > .cartLine > div {
     max-height: 120px;
     align-content: center;
     justify-content: center;
+    min-height: 30px;
+    max-width: 100%;
+    max-height: 100%;
+    font-size: 16px;
 }
 
 .cartItem {
+    display: inline-flex;
     align-content: center;
     justify-content: center;
-    padding: 2px;
+    /* padding: 2px; */
     border-top: 1px solid black;
+    width: 100%;
+    height: 100%;
+    max-height: 120px;
 
 }
 
@@ -234,36 +334,29 @@ a > .cartLine > div {
     max-width: 60px;
 }
 
-.shop img {
+.innergrid img {
     max-width: 100%;
     max-height: 70%;
     display: inline;
     
-    /* padding: 5px; */
-    
-    /* margin-top: -8%; */
-    /* margin-left: 70%; */
-    
-    /* border: 1px solid black; */
-    
 }
 
-.shop a {
+.innergrid a {
     color: rgb(100, 96, 96);
     text-decoration: none;
 }
 
-.shop a::after {
+.innergrid a::after {
     color: rgb(100, 96, 96);
     text-decoration: none;
 }
 
-.shop p {
+.innergrid p {
     display: inline;
 }
 
-.shop {
-    display: flex;
+.innergrid {
+    display: inline-grid;
     border: 1px solid black;
     height: 200px;
     width: 100%;
@@ -272,27 +365,13 @@ a > .cartLine > div {
     /* margin-bottom: 2px; */
 }
 
-.shop {
+.innergrid {
     font-size: 12px;
     color: rgb(100, 96, 96);
     text-decoration: none;
 }
 
-.itemtitle {
-    /* background-color: pink; */
-    display: flex;
-    height: 20%;
-    width: 100%;
-    justify-content: center;
-}
 
-.itemimage {
-    /* background-color: purple; */
-    display: flex;
-    height: 80%;
-    width: 100%;
-    justify-content: center;
-}
 
 
 .price {

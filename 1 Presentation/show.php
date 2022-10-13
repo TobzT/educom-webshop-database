@@ -6,6 +6,7 @@ include_once('./1 Presentation/about.php');
 include_once('./1 Presentation/contact.php');
 include_once('./1 Presentation/login.php');
 include_once('./1 Presentation/register.php');
+include_once('./1 Presentation/confirmorder.php');
 
 include_once('./2 Business/business.php');
 
@@ -83,6 +84,9 @@ function showContent($data) {
             break;
         case 'cart':
             showCartContent();
+            break;
+        case 'confirmOrder':
+            showConfirmOrder();
             break;
         default:
             showPageError();

@@ -450,7 +450,9 @@ function cleanCart() {
 }
 
 function clearCart() {
-    unset($_SESSION['cart']);
+    foreach($_SESSION['cart'] as $id => $count) {
+        $_SESSION['cart'][$id] = 0;
+    }
 }
 function showCart() {
     $total = 0;

@@ -66,6 +66,8 @@ function processRequest($page){
             $id = getVarFromArray($_GET, 'id', NULL);
             $data['id'] = $id;
             break;
+        case "confirmOrder":
+            showConfirmOrder();
         case 'cart':
             if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $type = getVarFromArray($_POST, 'type', NULL);
@@ -79,7 +81,6 @@ function processRequest($page){
                         $page = 'details';
                         $_GET['id'] = $id;
                         break;
-                    
                     case "remove":
                         $_SESSION['cart'][$id] = 0;
                         break;
@@ -100,7 +101,7 @@ function processRequest($page){
                     
                     case "order":
                         $totalPrice = getVarFromArray($_POST, 'total', 0);
-                        cleanCart();
+                        
                         $ids = array_keys($_SESSION['cart']);
                         $conn = openDb();
                         
@@ -118,14 +119,15 @@ function processRequest($page){
                         $userId = $user[0][0];
                         saveInOrders($conn, $userId, $order, $totalPrice);
                         clearCart();
+                        cleanCart();
                         closeDb($conn);
-                        $page = 'home';
+                        $page = 'confirmOrder';
 
 
                     
                     
                 }
-                
+            
 
             }
         

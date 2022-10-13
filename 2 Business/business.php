@@ -395,7 +395,7 @@ function showItem($item) {
     $body = showShopItemComp('shopImg', showImg('fillbox', $item[4])); //showImg('fillbox', $item[4])
     $button_1 = '<form method="post" action="index.php">
                 <input type="hidden" name="id" value="'.$item[0].'">
-                <input type="hidden" name="type" value="details">
+                <input type="hidden" name="type" value="webshop">
                 <input type="hidden" name="count" value="1">
                 <input type="hidden" name="page" value="cart">
                 <button id="details" type="submit">add to cart </button></form>';
@@ -415,19 +415,7 @@ function showItem($item) {
 
 
 
-// function showItem($info) {
-    
-//     echo('<a href="./index.php?page=details&id='.$info[0].'">');
-//     startGrid('innerShopGrid');
-    
-//     showShopItemComp('itemtitle', '<h3>'. $info[1].'</h3>');
-//     showShopItemComp('itemimg', 'testimg'); //showImg('fleximg', $info[4])
-//     showShopItemComp('itembutton', 'testing');
-    
-//     stopGrid();
-//     echo('</a>');
-    
-// }
+
 
 function showDetails($data) {
     $id = $data['id'];
@@ -453,22 +441,26 @@ function showDetails($data) {
 
 }
 
-function showCart() {
-    $total = 0;
-    startGrid('cartGrid');
-    showCartHeaders();
+function cleanCart() {
     foreach($_SESSION['cart'] as $id => $count) {
         if($count < 1) {
             unset($_SESSION['cart'][$id]);
         }
     }
+}
+
+function clearCart() {
+    unset($_SESSION['cart']);
+}
+function showCart() {
+    $total = 0;
+    startGrid('cartGrid');
+    showCartHeaders();
+    cleanCart();
     $conn = openDb();
     $result = getItems($conn, array_keys($_SESSION['cart']));
     closeDb($conn);
-    $itemArray = [];
-    foreach($result as $item){
-        $itemArray[$item[0]] = ['name' => $item[1], 'price' => $item[2], 'desc' => $item[3], 'path' => $item[4]];
-    }
+    $itemArray = sortWebshopResults($result);
     foreach($_SESSION['cart'] as $id => $count) {
         $total += cartLine($conn, $itemArray, $id, $count);
     }
@@ -477,7 +469,7 @@ function showCart() {
     showTotal($total);
     stopGrid();
     startGrid('cartGrid');
-    showOrderButton();
+    showOrderButton($total);
     stopGrid();
     
     
@@ -572,13 +564,14 @@ function showRemoveButton($id) {
     return $html;
 }
 
-function showOrderButton() {
+function showOrderButton($total) {
     startCartLine();
     showCartItem('rest');
     echo('<div class="cartItem" id="total">');
     echo('<form method="post" action="index.php">');
     echo('<input type="hidden" name="type" value="order">');
     echo('<input type="hidden" name="page" value="cart">');
+    echo('<input type="hidden" name="total" value="'.$total.'">');
     echo('<button type="submit">Order</button>');
     echo('</form>');
     echo('</div>');
@@ -593,12 +586,15 @@ function addToCart($id, $count) {
         } else {
             $_SESSION['cart'][$id] = (int)$count;
         }
+    } 
+}
+
+function sortWebshopResults($results) {
+    $output = [];
+    foreach($results as $line) {
+        $output[$line[0]] = ['name' => $line[1], 'price' => $line[2], 'desc' => $line[3], 'path' => $line[4]];
     }
-
-    
-    
-
-    
+    return $output;
 }
 
 

@@ -32,6 +32,9 @@ function insert_users($conn, $useremail, $username, $userpw) {
       }
 }
 
+
+
+
 // FIND
 function findByEmailInDb($conn, $email) {
   $sql = "SELECT * FROM users WHERE email = '$email'";
@@ -59,6 +62,26 @@ function findByEmailInDbB($conn, $email) {
     return true;
   }
   return false;
+}
+
+function findByNameInDb($conn, $name) {
+  $sql = "SELECT * FROM users WHERE name = '$name'";
+
+  try{
+    $result = mysqli_query($conn, $sql);
+    
+    $result = mysqli_fetch_all($result);
+    if (count($result) > 0) {
+      return $result;
+    } else {
+      return array();
+    }
+    
+  } 
+  catch(error $e){
+    echo "Error: " . mysqli_error($conn) . "<br>" . $e;
+    return;
+    }
 }
 
 // $conn = openConn();
@@ -152,4 +175,16 @@ function getItems($conn, $idArray) {
 // insert_items($conn, "Sojabonen", 2.50, "Sojabonen voor in de salade.", "./Images/sojabonen.jpg");
 // closeConn($conn);
 
+// ORDERS
+// INSERT
+function insert_order($conn, $userId, $order, $totalPrice) {
+  $sql = "INSERT INTO user_orders (userid, orderinfo, totalprice) VALUES('$userId','$order','$totalPrice')";
+
+  try{
+    mysqli_query($conn, $sql);
+  } 
+  catch(error $e){
+      echo "Error: " . mysqli_error($conn) . "<br>" . $e;
+  }
+}
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Gegenereerd op: 10 okt 2022 om 08:58
+-- Gegenereerd op: 13 okt 2022 om 08:11
 -- Serverversie: 10.4.25-MariaDB
 -- PHP-versie: 8.1.10
 
@@ -70,6 +70,26 @@ INSERT INTO `users` (`id`, `email`, `name`, `pw`) VALUES
 (14, 'tobzthe.the@com.com', 'Tobz', 'adminadmin'),
 (15, 'tobzthe.the@test.nl', 'Tobz', 'adminadmin');
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `user_orders`
+--
+
+CREATE TABLE `user_orders` (
+  `id` int(11) NOT NULL,
+  `userid` int(32) NOT NULL,
+  `orderinfo` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `totalprice` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user_orders`
+--
+
+INSERT INTO `user_orders` (`id`, `userid`, `orderinfo`, `totalprice`) VALUES
+(1, 12, '2|3|2.39:3|4|2.49:5|2|3.49:', 24.11);
+
 --
 -- Indexen voor geëxporteerde tabellen
 --
@@ -89,6 +109,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indexen voor tabel `user_orders`
+--
+ALTER TABLE `user_orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
@@ -103,6 +129,12 @@ ALTER TABLE `items`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT voor een tabel `user_orders`
+--
+ALTER TABLE `user_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -88,6 +88,39 @@ function processRequest($page){
                         $value = getVarFromArray($_POST, 'value', NULL);
                         $_SESSION['cart'][$id] = $value;
                         break;
+                    
+                    case "webshop":
+                        $count = getVarFromArray($_POST, 'count', 0);
+                        if($id !== NULL && $count !== 0) {
+                            addToCart($id, $count);
+                        }
+                        $page = 'webshop';
+                        $_GET['id'] = $id;
+                        break;
+                    
+                    case "order":
+                        $totalPrice = getVarFromArray($_POST, 'total', 0);
+                        cleanCart();
+                        $ids = array_keys($_SESSION['cart']);
+                        $conn = openDb();
+                        
+                        $result = getItemsFromDb($conn, $ids);
+                        $results = sortWebshopResults($result);
+                        
+                        $order = '';
+                        foreach($ids as $id) {
+                            $count = $_SESSION['cart'][$id];
+                            $price = $results[$id]['price'];
+                            $order .= $id . '|' . $count . '|' . $price . ':';
+
+                        }
+                        $user = findByName($conn, $_SESSION['username']);
+                        $userId = $user[0][0];
+                        saveInOrders($conn, $userId, $order, $totalPrice);
+                        clearCart();
+                        closeDb($conn);
+                        $page = 'home';
+
 
                     
                     
